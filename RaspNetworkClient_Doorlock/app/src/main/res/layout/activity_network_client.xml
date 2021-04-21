@@ -1,0 +1,168 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/door"
+    tools:context=".NetworkClientActivity"
+    android:orientation="vertical"
+    android:alpha="88">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="디지털 도어락"
+            android:textSize="40dp"
+            android:id="@+id/textViewTitle"
+            android:autoText="false"
+            android:textColor="#ff75df14"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/buttonServerSet"
+            android:text="Server Setting"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.2"
+            android:gravity="center|center_vertical"
+            android:clickable="true"
+            style="@style/Button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:id="@+id/textViewServerIP"
+            android:height="80dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/buttonServiceStart"
+            android:text="Connection"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:layout_marginTop="10dp"
+            android:gravity="center|center_vertical"
+            android:clickable="true"
+            style="@style/Button" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop"
+            android:textSize="25dp"
+            android:id="@+id/textViewNetStatus"
+            android:layout_marginLeft="10dp"
+            android:autoText="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:id="@+id/imageView"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/doorlock" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textViewSensingVal"
+                android:text="Sensing Value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewDoorStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Door Closed"
+                android:textSize="30dp"
+                android:layout_marginLeft="10dp"
+                android:autoText="false"
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="#ff3b4adf" />
+
+            <Switch
+                android:id="@+id/switchChangeDoor"
+                android:layout_width="200dp"
+                android:layout_height="85dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:showText="true"
+                android:clickable="true"
+                android:elegantTextHeight="false"
+                android:focusable="false"
+                android:enabled="true"
+                android:switchMinWidth="40dp"
+                android:text="Door"
+                android:textSize="40dp"
+                android:textColor="#000000"
+                android:textOn="OPEN"
+                android:textOff="CLOSE"
+                android:track="@drawable/switch_track_selector"
+                android:thumb="@drawable/switch_thumb_selector"
+                android:focusableInTouchMode="false"
+                android:singleLine="false"
+                android:splitTrack="false"
+                android:thumbTextPadding="1dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
