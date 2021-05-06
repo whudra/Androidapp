@@ -43,6 +43,15 @@ public class FingerPrint extends AppCompatActivity {
         final EditText edtPW = (EditText)findViewById(R.id.input_pw);
         final Button pwBtn = (Button)findViewById(R.id.buttonAuthWithPassword);
 
+        Button manageBtn = (Button)findViewById(R.id.managementPage);
+        manageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(FingerPrint.this, Management.class);
+                startActivity(it);
+                finish();
+            }
+        });
 
         pwBtn.setOnClickListener(new View.OnClickListener() {
             @Override

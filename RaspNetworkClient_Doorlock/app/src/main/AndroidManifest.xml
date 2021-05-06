@@ -32,6 +32,7 @@
             android:label="@string/title_activity_server_set" >
         </activity>
         <activity android:name=".NetworkClientActivity" />
+        <activity android:name=".Management" />
     </application>
 
 </manifest>

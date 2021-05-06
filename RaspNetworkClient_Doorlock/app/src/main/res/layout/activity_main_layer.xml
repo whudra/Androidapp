@@ -36,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="스마트폰 등록하기"
+        android:text="관리자 페이지"
         android:textSize="30dp"
         android:gravity="center"
-        android:id="@+id/allowPhone"
+        android:id="@+id/managementPage"
         />
 
 </LinearLayout>
