@@ -32,7 +32,12 @@ public class FingerPrint extends AppCompatActivity {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
+    private String userInfo;
     boolean flag_pwbtn = false;
+
+    public String getUserinfo(){
+        return userInfo;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +77,11 @@ public class FingerPrint extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),
                                     "등록되지 않은 비밀번호입니다 \n비밀번호 등록 후 사용 가능합니다!", Toast.LENGTH_SHORT).show();
                         }else{
+                            CustomTask task2 = new CustomTask();
+                            userInfo = task2.execute(pw, "info2").get();
                             Intent it = new Intent(FingerPrint.this, NetworkClientActivity.class);
+                            it.putExtra("1",userInfo);
+                            it.putExtra("2",serial);
                             startActivity(it);
                             finish();
                         }
@@ -111,7 +120,13 @@ public class FingerPrint extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "등록되지 않은 시리얼입니다 \n시리얼 등록 후 사용 가능합니다!", Toast.LENGTH_SHORT).show();
                     }else{
+                        CustomTask task2 = new CustomTask();
+                        Log.i("시리얼 인증성공 : ", "phase2");
+                        userInfo = task2.execute(serial, "info1").get();
+                        Log.i("userinfo : ", userInfo);
                         Intent it = new Intent(FingerPrint.this, NetworkClientActivity.class);
+                        it.putExtra("1",userInfo);
+                        it.putExtra("2",serial);
                         startActivity(it);
                         finish();
                     }
@@ -151,6 +166,7 @@ public class FingerPrint extends AppCompatActivity {
         String sendMsg, receiveMsg;
 
         public URL getURL(String str){
+            Log.i("getURL() 실행", "");
             URL url = null;
             try {
                 switch (str) {
@@ -160,25 +176,31 @@ public class FingerPrint extends AppCompatActivity {
                     case "password": // 웹서버로 비밀번호 넘기기
                         url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Password.jsp");
                         break;
+                    case "info1": case "info2": // 데이터베이스에서 아이피 포트정보 가져오기
+                        url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Userinfo.jsp");
+                        break;
                         default: break;
                 }
             }catch (MalformedURLException e){
                 e.printStackTrace();
             }
+            Log.i("getURL() 실행종료", "");
             return url;
         }
 
         public String getSendMsg(String str){
+            Log.i("getSendMsg() 실행", "");
             String returns = null;
             switch (str) {
-                case "serial": // 안드로이드에서 웹서버로 시리얼값 넘기기
+                case "serial": case "info1": // 안드로이드에서 웹서버로 시리얼값 넘기기
                     returns = "Serial";
                     break;
-                case "password": // 웹서버로 비밀번호 넘기기
+                case "password": case "info2": // 웹서버로 비밀번호 넘기기
                     returns = "Password";
                     break;
                 default: break;
             }
+            Log.i("getSendMsg() 실행종료", "");
             return returns;
         }
         @Override
