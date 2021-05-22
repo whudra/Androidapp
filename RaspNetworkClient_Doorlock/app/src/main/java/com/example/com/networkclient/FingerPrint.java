@@ -47,16 +47,31 @@ public class FingerPrint extends AppCompatActivity {
 
         final EditText edtPW = (EditText)findViewById(R.id.input_pw);
         final Button pwBtn = (Button)findViewById(R.id.buttonAuthWithPassword);
+        Button maBtn = (Button)findViewById(R.id.managementPageBtn);
 
-        Button manageBtn = (Button)findViewById(R.id.managementPage);
-        manageBtn.setOnClickListener(new View.OnClickListener() {
+        maBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(FingerPrint.this, Management.class);
-                startActivity(it);
-                finish();
+                try {
+                    String result2;
+                    CustomTask task = new CustomTask();
+                    Log.i("시리얼 : ", serial);
+                    result2 = task.execute(serial, "serial2").get();
+                    Log.i("리턴값 : ", result2);
+                    if(result2.equals("1")){
+                        Intent it = new Intent(FingerPrint.this, ManagementList.class);
+                        startActivity(it);
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),
+                                "등록되지 않은 관리자입니다", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+
 
         pwBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +194,9 @@ public class FingerPrint extends AppCompatActivity {
                     case "info1": case "info2": // 데이터베이스에서 아이피 포트정보 가져오기
                         url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Userinfo.jsp");
                         break;
+                    case "serial2": // 안드로이드에서 웹서버로 시리얼값 넘기기
+                        url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_CheckAdmin.jsp");
+                        break;
                         default: break;
                 }
             }catch (MalformedURLException e){
@@ -192,7 +210,7 @@ public class FingerPrint extends AppCompatActivity {
             Log.i("getSendMsg() 실행", "");
             String returns = null;
             switch (str) {
-                case "serial": case "info1": // 안드로이드에서 웹서버로 시리얼값 넘기기
+                case "serial": case "info1": case "serial2": // 안드로이드에서 웹서버로 시리얼값 넘기기
                     returns = "Serial";
                     break;
                 case "password": case "info2": // 웹서버로 비밀번호 넘기기

@@ -125,6 +125,7 @@
                 android:id="@+id/d_pwText"/>
         </LinearLayout>
     </LinearLayout>
+
     <Button
         android:textSize="50px"
         android:layout_width="800px"

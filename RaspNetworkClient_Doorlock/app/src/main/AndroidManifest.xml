@@ -33,6 +33,9 @@
         </activity>
         <activity android:name=".NetworkClientActivity" />
         <activity android:name=".Management" />
+        <activity android:name=".Management_Del" />
+        <activity android:name=".ManagementList" />
+        <activity android:name=".Management_LogView" />
     </application>
 
 </manifest>

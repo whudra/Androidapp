@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingBottom="300dp"
+    android:background="@drawable/layout_back">
+
+ <Button
+     android:background="@drawable/layout_button"
+     android:textStyle="bold"
+     android:layout_width="800px"
+     android:layout_height="wrap_content"
+     android:text="사용자 추가"
+     android:id="@+id/useraddbtn"
+     android:layout_margin="25px"></Button>
+
+    <Button
+        android:background="@drawable/layout_button"
+        android:textStyle="bold"
+        android:layout_width="800px"
+        android:layout_height="wrap_content"
+        android:text="사용자 삭제"
+        android:id="@+id/userdelbtn"
+        android:layout_margin="25px"></Button>
+
+    <Button
+        android:background="@drawable/layout_button"
+        android:textStyle="bold"
+        android:layout_width="800px"
+        android:layout_height="wrap_content"
+        android:text="로그 확인"
+        android:id="@+id/logview"
+        android:layout_margin="25px"></Button>
+
+</LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.com.networkclient;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,37 +17,33 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Management extends Activity {
+public class Management_Del extends Activity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_management_layer);
+        setContentView(R.layout.activity_management_layer_delete);
 
-        Button addBtn = (Button)findViewById(R.id.addBtn);
+        Button delbtn = (Button)findViewById(R.id.delbtn);
 
-        final EditText snText = (EditText)findViewById(R.id.snText);
-        final EditText ipText = (EditText)findViewById(R.id.ipText);
-        final EditText portText = (EditText)findViewById(R.id.portText);
-        final EditText a_pwText = (EditText)findViewById(R.id.a_pwText);
-        final EditText d_pwText = (EditText)findViewById(R.id.d_pwText);
+        final EditText snText = (EditText) findViewById(R.id.snText);
 
-         if(snText.getText().toString() != null || ipText.getText().toString() != null || portText.getText().toString() != null || a_pwText.getText().toString() != null || d_pwText.getText().toString() != null ){
-            addBtn.setOnClickListener(new View.OnClickListener() {
+        if(snText.getText().toString() != null){
+            delbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
-                        if(snText.getText().toString().equals("") || ipText.getText().toString().equals("") || portText.getText().toString().equals("") || a_pwText.getText().toString().equals("") || d_pwText.getText().toString().equals("")){
-                                Toast.makeText(getApplicationContext(),
-                                        "값을 입력해주세요", Toast.LENGTH_SHORT).show();
+                        if(snText.getText().toString().equals("")){
+                            Toast.makeText(getApplicationContext(),
+                                    "값을 입력해주세요", Toast.LENGTH_SHORT).show();
                         }else {
                             String result2;
-                            CustomTask task = new CustomTask();
-                            result2 = task.execute(snText.getText().toString(), ipText.getText().toString(), portText.getText().toString(), a_pwText.getText().toString(), d_pwText.getText().toString()).get();
-                            if (result2.equals("추가성공!")) {
+                            Management_Del.CustomTask task = new Management_Del.CustomTask();
+                            result2 = task.execute(snText.getText().toString()).get();
+                            if (result2.equals("삭제성공!")) {
                                 Toast.makeText(getApplicationContext(),
-                                        "등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                        "삭제되었습니다..", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getApplicationContext(),
-                                        "이미 존재하는 시리얼 번호입니다. \n시리얼 번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                                        "등록되지 않은 시리얼 번호입니다. \n시리얼 번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (Exception e) {
@@ -57,8 +52,10 @@ public class Management extends Activity {
                 }
             });
         }
-
     }
+
+
+
     class CustomTask extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
 
@@ -67,12 +64,12 @@ public class Management extends Activity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management.jsp");
+                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management_Del.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
                 OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "sn=" + strings[0] + "&ip=" + strings[1] + "&port=" + strings[2] + "&a_pw=" + strings[3] + "&d_pw=" + strings[4];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
+                sendMsg = "sn=" + strings[0];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
                 System.out.println("센드 : " + sendMsg);
                 //회원가입처럼 보낼 데이터가 여러 개일 경우 &로 구분하여 작성합니다.
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송합니다.
@@ -103,3 +100,5 @@ public class Management extends Activity {
         }
     }
 }
+
+
