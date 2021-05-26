@@ -384,6 +384,8 @@ public class NetworkClientActivity extends Activity {
     {
         Switch swc = (Switch)findViewById(R.id.switchChangeDoor);
 
+        swc.setEnabled(true);
+
         switch(status)
         {
             case DOOR_CLOSE:

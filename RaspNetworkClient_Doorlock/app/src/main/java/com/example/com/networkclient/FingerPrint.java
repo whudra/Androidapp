@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,9 @@ public class FingerPrint extends AppCompatActivity {
         final EditText edtPW = (EditText)findViewById(R.id.input_pw);
         final Button pwBtn = (Button)findViewById(R.id.buttonAuthWithPassword);
         Button maBtn = (Button)findViewById(R.id.managementPageBtn);
+        TextView mySerial = (TextView)findViewById(R.id.mySerial);
+
+        mySerial.setText(serial);
 
         maBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,12 @@ public class FingerPrint extends AppCompatActivity {
                     Log.i("리턴값 : ", result2);
                     if(result2.equals("1")){
                         Intent it = new Intent(FingerPrint.this, ManagementList.class);
+                        it.putExtra("1", "um");
+                        startActivity(it);
+                        finish();
+                    }else if(result2.equals("2")){
+                        Intent it = new Intent(FingerPrint.this, ManagementList.class);
+                        it.putExtra("1", "pm");
                         startActivity(it);
                         finish();
                     }else{
@@ -71,6 +81,7 @@ public class FingerPrint extends AppCompatActivity {
                 }
             }
         });
+
 
 
         pwBtn.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +115,8 @@ public class FingerPrint extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     edtPW.setVisibility(View.INVISIBLE);
-                    pwBtn.setText("비밀번호 인증하기");
+                    pwBtn.setText("");
+                    flag_pwbtn = false;
                 }
             }
         });

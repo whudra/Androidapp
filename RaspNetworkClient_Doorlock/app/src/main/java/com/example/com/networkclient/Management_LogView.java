@@ -1,11 +1,9 @@
 package com.example.com.networkclient;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,9 +28,9 @@ public class Management_LogView extends Activity {
         final ArrayList<String> items1 = new ArrayList<String>();
         final ArrayList<String> items2 = new ArrayList<String>();
         final ArrayList<String> items3 = new ArrayList<String>();
-        final ArrayAdapter adapter1 = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, items1);
-        final ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, items2);
-        final ArrayAdapter adapter3 = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, items3);
+        final ArrayAdapter adapter1 = new ArrayAdapter(this, R.layout.listview_text, items1);
+        final ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.listview_text, items2);
+        final ArrayAdapter adapter3 = new ArrayAdapter(this, R.layout.listview_text, items3);
         final ListView s_list = (ListView)findViewById(R.id.s_list);
         final ListView d_list = (ListView)findViewById(R.id.d_list);
         final ListView p_list = (ListView)findViewById(R.id.p_list);

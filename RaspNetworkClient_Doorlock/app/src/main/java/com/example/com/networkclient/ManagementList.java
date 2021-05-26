@@ -33,11 +33,14 @@ public class ManagementList extends Activity {
         Button useraddbtn = (Button)findViewById(R.id.useraddbtn);
         Button userdelbtn = (Button)findViewById(R.id.userdelbtn);
         Button logview = (Button)findViewById(R.id.logview);
+        Intent it = getIntent();
+        final String manger = it.getStringExtra("1");
 
         useraddbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(ManagementList.this, Management.class);
+                it.putExtra("1", manger);
                 startActivity(it);
                 finish();
             }
@@ -55,7 +58,6 @@ public class ManagementList extends Activity {
         logview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent it = new Intent(ManagementList.this, Management_LogView.class);
                 startActivity(it);
                 finish();

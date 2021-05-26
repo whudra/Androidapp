@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Management extends Activity {
+    static int check = 1;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_layer);
@@ -31,6 +33,25 @@ public class Management extends Activity {
         final EditText a_pwText = (EditText)findViewById(R.id.a_pwText);
         final EditText d_pwText = (EditText)findViewById(R.id.d_pwText);
 
+        Intent it = getIntent();
+        String manager = it.getStringExtra("1");
+        Log.i("test", manager);
+        if(manager.equals("um")){
+            ipText.setEnabled(false);
+            portText.setEnabled(false);
+            check = 1;
+            try {
+                String result2;
+                CustomTask task2 = new CustomTask();
+                final String serial = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                result2 = task2.execute(serial).get();
+                ipText.setText(result2.split("/")[0]);
+                portText.setText(result2.split("/")[1]);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
          if(snText.getText().toString() != null || ipText.getText().toString() != null || portText.getText().toString() != null || a_pwText.getText().toString() != null || d_pwText.getText().toString() != null ){
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -40,6 +61,7 @@ public class Management extends Activity {
                                 Toast.makeText(getApplicationContext(),
                                         "값을 입력해주세요", Toast.LENGTH_SHORT).show();
                         }else {
+                            check = 2;
                             String result2;
                             CustomTask task = new CustomTask();
                             result2 = task.execute(snText.getText().toString(), ipText.getText().toString(), portText.getText().toString(), a_pwText.getText().toString(), d_pwText.getText().toString()).get();
@@ -67,12 +89,15 @@ public class Management extends Activity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management.jsp");
+                URL url;
+                if(check == 1)  url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management1.jsp");
+                else url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management2.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
                 OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "sn=" + strings[0] + "&ip=" + strings[1] + "&port=" + strings[2] + "&a_pw=" + strings[3] + "&d_pw=" + strings[4];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
+                if(check == 1) sendMsg = "sn=" + strings[0];
+                else sendMsg = "sn=" + strings[0] + "&ip=" + strings[1] + "&port=" + strings[2] + "&a_pw=" + strings[3] + "&d_pw=" + strings[4];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
                 System.out.println("센드 : " + sendMsg);
                 //회원가입처럼 보낼 데이터가 여러 개일 경우 &로 구분하여 작성합니다.
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송합니다.
