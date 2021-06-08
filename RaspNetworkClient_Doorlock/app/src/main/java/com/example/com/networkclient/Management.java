@@ -27,6 +27,7 @@ public class Management extends Activity {
 
         Button addBtn = (Button)findViewById(R.id.addBtn);
 
+        final EditText snName = (EditText)findViewById(R.id.snName);
         final EditText snText = (EditText)findViewById(R.id.snText);
         final EditText ipText = (EditText)findViewById(R.id.ipText);
         final EditText portText = (EditText)findViewById(R.id.portText);
@@ -52,19 +53,19 @@ public class Management extends Activity {
             }
         }
 
-         if(snText.getText().toString() != null || ipText.getText().toString() != null || portText.getText().toString() != null || a_pwText.getText().toString() != null || d_pwText.getText().toString() != null ){
+         if(snName.getText().toString() != null || snText.getText().toString() != null || ipText.getText().toString() != null || portText.getText().toString() != null || a_pwText.getText().toString() != null || d_pwText.getText().toString() != null ){
             addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
-                        if(snText.getText().toString().equals("") || ipText.getText().toString().equals("") || portText.getText().toString().equals("") || a_pwText.getText().toString().equals("") || d_pwText.getText().toString().equals("")){
+                        if(snText.getText().toString().equals("") || snName.getText().toString().equals("")  || ipText.getText().toString().equals("") || portText.getText().toString().equals("") || a_pwText.getText().toString().equals("") || d_pwText.getText().toString().equals("")){
                                 Toast.makeText(getApplicationContext(),
                                         "값을 입력해주세요", Toast.LENGTH_SHORT).show();
                         }else {
                             check = 2;
                             String result2;
                             CustomTask task = new CustomTask();
-                            result2 = task.execute(snText.getText().toString(), ipText.getText().toString(), portText.getText().toString(), a_pwText.getText().toString(), d_pwText.getText().toString()).get();
+                            result2 = task.execute(snText.getText().toString(), snName.getText().toString(), ipText.getText().toString(), portText.getText().toString(), a_pwText.getText().toString(), d_pwText.getText().toString()).get();
                             if (result2.equals("추가성공!")) {
                                 Toast.makeText(getApplicationContext(),
                                         "등록되었습니다.", Toast.LENGTH_SHORT).show();
@@ -90,14 +91,14 @@ public class Management extends Activity {
             try {
                 String str;
                 URL url;
-                if(check == 1)  url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management1.jsp");
-                else url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management2.jsp");
+                if(check == 1)  url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_Management1.jsp");
+                else url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_Management2.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
                 OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
                 if(check == 1) sendMsg = "sn=" + strings[0];
-                else sendMsg = "sn=" + strings[0] + "&ip=" + strings[1] + "&port=" + strings[2] + "&a_pw=" + strings[3] + "&d_pw=" + strings[4];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
+                else sendMsg = "sn=" + strings[0] + "&ip=" + strings[1] + "&port=" + strings[2] + "&a_pw=" + strings[3] + "&d_pw=" + strings[4] + "&name=" + strings[5];//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
                 System.out.println("센드 : " + sendMsg);
                 //회원가입처럼 보낼 데이터가 여러 개일 경우 &로 구분하여 작성합니다.
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송합니다.

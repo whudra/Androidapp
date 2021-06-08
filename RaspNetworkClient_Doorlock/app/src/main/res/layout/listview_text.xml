@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/TxtMemoListType"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100px"
     android:orientation="vertical"
     android:textColor="#000000"
     android:textSize="15dp"

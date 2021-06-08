@@ -64,7 +64,7 @@ public class Management_Del extends Activity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Management_Del.jsp");
+                URL url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_Management_Del.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.

@@ -3,34 +3,60 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:paddingBottom="300dp"
     android:background="@drawable/layout_back">
 
- <Button
-     android:background="@drawable/layout_button"
-     android:textStyle="bold"
-     android:layout_width="800px"
-     android:layout_height="wrap_content"
-     android:text="사용자 추가"
-     android:id="@+id/useraddbtn"
-     android:layout_margin="25px"></Button>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:fontFamily="casual"
+            android:text="Management page">
+        </TextView>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:background="#000000"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+     <Button
+         android:background="@drawable/user_add"
+         android:textStyle="bold"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:id="@+id/useraddbtn"
+         android:layout_margin="25px"></Button>
 
     <Button
-        android:background="@drawable/layout_button"
+        android:background="@drawable/user_del"
         android:textStyle="bold"
-        android:layout_width="800px"
-        android:layout_height="wrap_content"
-        android:text="사용자 삭제"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/userdelbtn"
         android:layout_margin="25px"></Button>
 
     <Button
-        android:background="@drawable/layout_button"
+        android:background="@drawable/log_view"
         android:textStyle="bold"
-        android:layout_width="800px"
-        android:layout_height="wrap_content"
-        android:text="로그 확인"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/logview"
         android:layout_margin="25px"></Button>
-
+    </LinearLayout>
 </LinearLayout>

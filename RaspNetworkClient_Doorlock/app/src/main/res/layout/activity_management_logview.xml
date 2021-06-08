@@ -12,7 +12,7 @@
         <TextView
             android:background="@drawable/layout_back"
             android:gravity="center"
-            android:layout_width="400px"
+            android:layout_width="370px"
             android:textSize="50px"
             android:layout_height="wrap_content"
             android:text="Serial_Number">
@@ -21,7 +21,7 @@
         <TextView
             android:background="@drawable/layout_back"
             android:gravity="center"
-            android:layout_width="400px"
+            android:layout_width="370px"
             android:textSize="50px"
             android:layout_height="wrap_content"
             android:text="date">
@@ -31,10 +31,20 @@
             android:background="@drawable/layout_back"
             android:gravity="center"
             android:layout_gravity="right"
-            android:layout_width="270px"
+            android:layout_width="170px"
             android:textSize="50px"
             android:layout_height="wrap_content"
             android:text="state">
+        </TextView>
+
+        <TextView
+            android:background="@drawable/layout_back"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:textSize="50px"
+            android:layout_height="wrap_content"
+            android:text="image">
         </TextView>
 
     </LinearLayout>
@@ -52,7 +62,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ListView
-                android:layout_width="400px"
+                android:layout_width="370px"
                 android:layout_height="600dp"
                 android:choiceMode="none"
                 android:clickable="false"
@@ -63,7 +73,7 @@
                 android:id="@+id/s_list">
             </ListView>
             <ListView
-                android:layout_width="400px"
+                android:layout_width="370px"
                 android:layout_height="600dp"
                 android:choiceMode="none"
                 android:clickable="false"
@@ -74,7 +84,7 @@
                 android:id="@+id/d_list">
             </ListView>
             <ListView
-                android:layout_width="270px"
+                android:layout_width="170px"
                 android:layout_height="600dp"
                 android:choiceMode="none"
                 android:clickable="false"
@@ -83,6 +93,17 @@
                 android:longClickable="false"
                 android:scrollbars="none"
                 android:id="@+id/p_list">
+            </ListView>
+            <ListView
+                android:layout_width="150px"
+                android:layout_height="600dp"
+                android:choiceMode="none"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:longClickable="false"
+                android:scrollbars="none"
+                android:id="@+id/view_list">
             </ListView>
         </LinearLayout>
     </ScrollView>

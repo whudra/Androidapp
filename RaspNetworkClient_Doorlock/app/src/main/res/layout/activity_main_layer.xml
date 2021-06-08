@@ -42,16 +42,16 @@
         android:background="@drawable/fingerprint"
         android:textSize="30dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:background="@drawable/password"
-        android:textSize="30dp"
-        android:id="@+id/buttonAuthWithPassword"
-        android:onClick="pwBtn_Onclick"
-        />
-    <EditText
+        <Button
+            android:id="@+id/buttonAuthWithPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/password"
+            android:onClick="pwBtn_Onclick"
+            android:padding="20dp"
+            android:textSize="30dp" />
+
+        <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="@string/confirm_device_credential_password"

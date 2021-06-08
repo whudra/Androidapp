@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Management_LogView extends Activity {
+public class Management_LogView extends Activity implements ListViewBtnAdapter.ListBtnClickListener {
+    static int count = 0;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_logview);
@@ -31,45 +33,22 @@ public class Management_LogView extends Activity {
         final ArrayAdapter adapter1 = new ArrayAdapter(this, R.layout.listview_text, items1);
         final ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.listview_text, items2);
         final ArrayAdapter adapter3 = new ArrayAdapter(this, R.layout.listview_text, items3);
+        final ListViewBtnAdapter adapter4;
         final ListView s_list = (ListView)findViewById(R.id.s_list);
         final ListView d_list = (ListView)findViewById(R.id.d_list);
         final ListView p_list = (ListView)findViewById(R.id.p_list);
+        final ListView v_list = (ListView)findViewById(R.id.view_list);
+        ArrayList<ListViewBtnItem> items = new ArrayList<ListViewBtnItem>();
 
         final ScrollView scv = (ScrollView)findViewById(R.id.scv);
-
-        /*View.OnTouchListener touchListener = new View.OnTouchListener() {
-            boolean dispatched = false;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (v.equals(s_list) && !dispatched) {
-                    dispatched = true;
-                    d_list.dispatchTouchEvent(event);
-                    p_list.dispatchTouchEvent(event);
-                } else if (v.equals(d_list) && !dispatched) {
-                    dispatched = true;
-                    s_list.dispatchTouchEvent(event);
-                    p_list.dispatchTouchEvent(event);
-                } else if (v.equals(p_list) && !dispatched) {
-                    dispatched = true;
-                    s_list.dispatchTouchEvent(event);
-                    d_list.dispatchTouchEvent(event);
-                }// similarly for listViewThree & listViewFour
-                dispatched = false;
-                return false;
-            }
-        };
-
-        s_list.setOnTouchListener(touchListener);
-        d_list.setOnTouchListener(touchListener);
-        p_list.setOnTouchListener(touchListener); */
 
         int totalHeight = 0;
 
         s_list.setAdapter(adapter1);
         d_list.setAdapter(adapter2);
         p_list.setAdapter(adapter3);
-        String rs = null;
 
+        String rs = null;
         try {
             CustomTask task = new CustomTask();
             rs = task.execute().get();
@@ -83,9 +62,21 @@ public class Management_LogView extends Activity {
             items2.add(line.toString().split(",")[1]);
             items3.add(line.toString().split(",")[2]);
         }
+
+        count = items1.size();
+        loadItemsFromDB(items);
+        adapter4 = new ListViewBtnAdapter(this, R.layout.list_btn_item, items, this);
+        v_list.setAdapter(adapter4);
+
         setListViewHeightBasedOnItems(s_list);
         setListViewHeightBasedOnItems(d_list);
         setListViewHeightBasedOnItems(p_list);
+        setListViewHeightBasedOnItems(v_list);
+    }
+
+    @Override
+    public void onListBtnClick(int position){
+        Toast.makeText(this, Integer.toString(position+1), Toast.LENGTH_SHORT).show();
     }
 
     class CustomTask extends AsyncTask<String, Void, String> {
@@ -95,7 +86,7 @@ public class Management_LogView extends Activity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_LogView.jsp");
+                URL url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_LogView.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
@@ -137,6 +128,7 @@ public class Management_LogView extends Activity {
         if (listAdapter == null) return;
 
         int numberOfItems = listAdapter.getCount();
+        Log.i("nisssss", ""+numberOfItems);
 
         // Get total height of all items.
         int totalItemsHeight = 0;
@@ -145,14 +137,32 @@ public class Management_LogView extends Activity {
             item.measure(0, 0);
             totalItemsHeight += item.getMeasuredHeight();
         }
+        Log.i("totalh", ""+totalItemsHeight);
 
         // Get total height of all item dividers.
-        int totalDividersHeight = listView.getDividerHeight() * (numberOfItems - 1);
+        int totalDividersHeight = listView.getDividerHeight() * (numberOfItems-1);
+        Log.i("totaldh", ""+totalDividersHeight);
 
         // set list height.
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalItemsHeight + totalDividersHeight;
+        params.height = (totalItemsHeight + totalDividersHeight) * 2;
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    public boolean loadItemsFromDB(ArrayList<ListViewBtnItem> list) {
+        ListViewBtnItem item ;
+        int i;
+
+        if (list == null) {
+            list = new ArrayList<ListViewBtnItem>() ;
+        }
+        Log.i("" + count, "dd");
+        for(i = 1; i < count+1; i++) {
+            // 아이템 생성.
+            item = new ListViewBtnItem();
+            list.add(item);
+        }
+        return true ;
     }
 }

@@ -65,6 +65,7 @@ public class NetworkClientActivity extends Activity {
 
     int  phoneID = 1; // phone id 1~128
     SharedPreferences prefs;
+    static boolean s_flag = false;
 
     String   ServerIP;
 
@@ -158,6 +159,7 @@ public class NetworkClientActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     changeDoorStatus(DOOR_OPEN);
+                    s_flag = true;
                 }
                 else {
                     changeDoorStatus(DOOR_CLOSE);
@@ -201,6 +203,7 @@ public class NetworkClientActivity extends Activity {
     final static int PKT_INDEX_DATA1 = 2;
     final static int PKT_INDEX_DATA2 = 3;
     final static int PKT_INDEX_ETX = 4;
+    final static int PKT_INDEX_SERIAL = 5;
 
     final static byte PKT_STX = 0x01;
     final static byte PKT_ETX = 0x05;
@@ -223,6 +226,11 @@ public class NetworkClientActivity extends Activity {
         if ( NetMgr.getNetStatus() != NetManager.NET_CONNECTED)
         {
             return -1;
+        }
+        if(s_flag){
+            s_flag = false;
+            String serial2 = serial+"\0";
+            NetMgr.SendData(serial2.getBytes(), serial2.length());
         }
         packet[PKT_INDEX_STX] = PKT_STX;
         packet[PKT_INDEX_CMD] = CMD_SENSOR_REQ;
@@ -384,8 +392,6 @@ public class NetworkClientActivity extends Activity {
     {
         Switch swc = (Switch)findViewById(R.id.switchChangeDoor);
 
-        swc.setEnabled(true);
-
         switch(status)
         {
             case DOOR_CLOSE:
@@ -405,12 +411,12 @@ public class NetworkClientActivity extends Activity {
         {
             case DOOR_CLOSE:
                 DoorStatus.setText("Door Closed");
-                task.execute("Door","Closed","Serial",serial);
+                //task.execute("Door","Closed","Serial",serial);
                 nSendDoorVal = DOOR_CLOSE;
                 break;
             case DOOR_OPEN:
                 DoorStatus.setText("Door Opened");
-                task.execute("Door","Opened","Serial",serial);
+                //task.execute("Door","Opened","Serial",serial);
                 nSendDoorVal = DOOR_OPEN;
                 break;
         }
@@ -425,7 +431,7 @@ public class NetworkClientActivity extends Activity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.3:8119/dl_proj/AtoW_Door.jsp");
+                URL url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_Door.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
