@@ -390,7 +390,7 @@ public class NetworkClientActivity extends Activity {
 
     private void doDoorStatus(int status)
     {
-        Switch swc = (Switch)findViewById(R.id.switchChangeDoor);
+        final Switch swc = (Switch)findViewById(R.id.switchChangeDoor);
 
         swc.setEnabled(true);
 
@@ -403,6 +403,14 @@ public class NetworkClientActivity extends Activity {
             case DOOR_OPEN:
                 DoorStatus.setText("Door Opened");
                 swc.setChecked(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DoorStatus.setText("Door Closed");
+                        swc.setChecked(false);
+
+                    }
+                }, 5000); // Handler 열고 난 후 몇초 시간 후 닫힘
                 break;
         }
     }
