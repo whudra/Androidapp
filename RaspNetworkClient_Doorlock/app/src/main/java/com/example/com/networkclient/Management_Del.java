@@ -35,9 +35,10 @@ public class Management_Del extends Activity {
                             Toast.makeText(getApplicationContext(),
                                     "값을 입력해주세요", Toast.LENGTH_SHORT).show();
                         }else {
-                            String result2;
+                            String result2 = null;
                             Management_Del.CustomTask task = new Management_Del.CustomTask();
                             result2 = task.execute(snText.getText().toString()).get();
+                            Log.i("sdfsdfsdf", result2);
                             if (result2.equals("삭제성공!")) {
                                 Toast.makeText(getApplicationContext(),
                                         "삭제되었습니다..", Toast.LENGTH_SHORT).show();

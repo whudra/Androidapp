@@ -58,5 +58,13 @@
         android:layout_height="100dp"
         android:id="@+id/logview"
         android:layout_margin="25px"></Button>
+
+        <Button
+            android:background="@drawable/remove"
+            android:textStyle="bold"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/del_log"
+            android:layout_margin="25px"></Button>
     </LinearLayout>
 </LinearLayout>

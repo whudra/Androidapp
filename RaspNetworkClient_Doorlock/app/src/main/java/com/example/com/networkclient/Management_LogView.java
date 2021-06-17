@@ -1,12 +1,16 @@
 package com.example.com.networkclient;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -20,8 +24,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Management_LogView extends Activity implements ListViewBtnAdapter.ListBtnClickListener {
+    boolean toggle = true;
     static int count = 0;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -30,6 +36,7 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
         final ArrayList<String> items1 = new ArrayList<String>();
         final ArrayList<String> items2 = new ArrayList<String>();
         final ArrayList<String> items3 = new ArrayList<String>();
+        final ArrayList<String> items4 = new ArrayList<String>();
         final ArrayAdapter adapter1 = new ArrayAdapter(this, R.layout.listview_text, items1);
         final ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.listview_text, items2);
         final ArrayAdapter adapter3 = new ArrayAdapter(this, R.layout.listview_text, items3);
@@ -50,6 +57,7 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
 
         String rs = null;
         try {
+            toggle = true;
             CustomTask task = new CustomTask();
             rs = task.execute().get();
         }catch (Exception e){
@@ -77,6 +85,25 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
     @Override
     public void onListBtnClick(int position){
         Toast.makeText(this, Integer.toString(position+1), Toast.LENGTH_SHORT).show();
+        /*String res = null;
+        try {
+            toggle = false;
+            CustomTask task3 = new CustomTask();
+            res = task3.execute(position+"").get();
+        }catch (Exception e){
+            e.printStackTrace();
+        }*/
+
+        View dialogView = (View) View.inflate(Management_LogView.this, R.layout.dialog, null);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(Management_LogView.this);
+        ImageView image = (ImageView) dialogView.findViewById(R.id.imageViews);
+        dlg.setView(dialogView);
+        dlg.setNegativeButton("닫기", null);
+        String url = "http://192.168.86.252:9002/dl_proj/AtoW_Photo1.jsp?parameter=" + (position+1);
+
+        ImageLoadTask task = new ImageLoadTask(url,image);
+        task.execute();
+        dlg.show();
     }
 
     class CustomTask extends AsyncTask<String, Void, String> {
@@ -86,12 +113,15 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_LogView.jsp");
+                URL url;
+                if(toggle) url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_LogView.jsp");
+                else url = new URL("http://192.168.86.252:9002/dl_proj/AtoW_Photos.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");//데이터를 POST 방식으로 전송합니다.
                 OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "View=1" ;//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
+                if(toggle) sendMsg = "View=1" ;//보낼 정보인데요. GET방식으로 작성합니다. ex) "id=rain483&pwd=1234";
+                else sendMsg = "imageID=" + strings[0];
                 System.out.println("센드 : " + sendMsg);
                 //회원가입처럼 보낼 데이터가 여러 개일 경우 &로 구분하여 작성합니다.
                 osw.write(sendMsg);//OutputStreamWriter에 담아 전송합니다.
@@ -164,5 +194,57 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
             list.add(item);
         }
         return true ;
+    }
+
+    public class ImageLoadTask extends AsyncTask<Void,Void, Bitmap> {
+
+        private String urlStr;
+        private ImageView imageView;
+        private HashMap<String, Bitmap> bitmapHash = new HashMap<String, Bitmap>();
+
+        public ImageLoadTask(String urlStr, ImageView imageView) {
+            this.urlStr = urlStr;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap bitmap = null;
+            try {
+                if (bitmapHash.containsKey(urlStr)) {
+                    Bitmap oldbitmap = bitmapHash.remove(urlStr);
+                    if(oldbitmap != null) {
+                        oldbitmap.recycle();
+                        oldbitmap = null;
+                    }
+                }
+                URL url = new URL(urlStr);
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+                bitmapHash.put(urlStr,bitmap);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return bitmap;
+        }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+
+            imageView.setImageBitmap(bitmap);
+            imageView.invalidate();
+        }
     }
 }

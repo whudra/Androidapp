@@ -134,6 +134,7 @@
                 android:textColor="#ff3b4adf" />
 
             <Switch
+                android:enabled="false"
                 android:id="@+id/switchChangeDoor"
                 android:layout_width="200dp"
                 android:layout_height="85dp"
