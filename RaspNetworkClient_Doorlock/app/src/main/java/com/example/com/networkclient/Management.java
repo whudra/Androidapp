@@ -49,7 +49,8 @@ public class Management extends Activity {
                 result2 = task2.execute(serial).get();
                 ipText.setText(result2.split("/")[0]);
                 portText.setText(result2.split("/")[1]);
-                admin.setText(result2.split("/")[2]);
+        //        admin.setText(result2.split("/")[2]);
+                admin.setText("0");
             }catch (Exception e){
                 e.printStackTrace();
             }

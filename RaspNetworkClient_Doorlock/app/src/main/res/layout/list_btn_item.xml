@@ -7,7 +7,7 @@
     <Button
         android:layout_width="150px"
         android:layout_height="100px"
-        android:text="..."
+        android:text="img"
         android:id="@+id/exBtn"/>
 
 </LinearLayout>
