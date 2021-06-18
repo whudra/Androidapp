@@ -65,6 +65,7 @@ public class Management_LogView extends Activity implements ListViewBtnAdapter.L
         }
 
         String[] lines = rs.split("/");
+
         for(String line : lines) {
             items1.add(line.toString().split(",")[0]);
             items2.add(line.toString().split(",")[1]);

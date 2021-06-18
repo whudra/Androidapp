@@ -61,6 +61,7 @@ public class ManagementList extends Activity {
         logview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent it = new Intent(ManagementList.this, Management_LogView.class);
                 startActivity(it);
                 finish();

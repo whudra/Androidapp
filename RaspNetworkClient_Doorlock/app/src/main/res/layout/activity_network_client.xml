@@ -19,7 +19,7 @@
             android:fontFamily="casual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="디지털 도어락"
+            android:text="Digital DoorLock"
             android:textSize="40dp"
             android:id="@+id/textViewTitle"
             android:autoText="false"
